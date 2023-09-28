@@ -3,6 +3,11 @@ import axios from 'axios';
 import fs from 'fs';
 require('dotenv').config();
 
+export const config = {
+  runtime: 'edge',
+};
+ 
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const path = require('path');
