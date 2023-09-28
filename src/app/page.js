@@ -40,7 +40,7 @@ export default function Home () {
     changePage('Loading')
 
     try {
-      const response = await fetch('/api/sendAudio', {
+      const response = await fetch('https://call-review-demo.vercel.app/api/sendAudio', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
