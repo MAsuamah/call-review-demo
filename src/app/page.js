@@ -40,7 +40,7 @@ export default function Home () {
     changePage('Loading')
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sendAudio`, {
+      const response = await fetch('/api/sendAudio', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,27 +50,27 @@ export default function Home () {
   
       if (response.ok) {
         const data = await response.json();
-        if(data.call === '../public/audio/call-1.mp3') {
+        if(data.call === 'call-1.mp3') {
           setSpeakers(['Donna', 'Carolyn']) 
         }
 
-        if(data.call === '../public/audio/call-2.mp3') {
+        if(data.call === 'call-2.mp3') {
           setSpeakers(['Jeff', 'Anthony']) 
         }
 
-        if(data.call === '../public/audio/call-3.mp3') {
+        if(data.call === 'call-3.mp3') {
           setSpeakers(['James', 'Marco']) 
         }
 
-        if(data.call === '../public/audio/call-4.wav') {
+        if(data.call === 'call-4.wav') {
           setSpeakers(['Mark', 'Colin']) 
         }
 
-        if(data.call === '../public/audio/call-5.wav') {
+        if(data.call === 'call-5.wav') {
           setSpeakers(['Lauren', 'John'])
         }
 
-        if(data.call === '../public/audio/call-6.mp3') {
+        if(data.call === 'call-6.mp3') {
           setSpeakers(['Erica', 'Josh']) 
         }
 
