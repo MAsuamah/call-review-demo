@@ -15,7 +15,7 @@ const assembly = axios.create({
            }
 });
 
-app.post('/sendAudio', async (req, res) => {
+app.post('api/sendAudio', async (req, res) => {
   const file = req.body.audio;
   let question1 = req.body.q1;
   let question2 = req.body.q2;
