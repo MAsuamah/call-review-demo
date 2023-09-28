@@ -5,8 +5,8 @@
       "memory": 512,
       "routes": [
         {
-          "src": "/.*",
-          "dest": "server.js"
+          "src": "/api/.*",
+          "dest": "api/server.js"
         }
       ]
     }
