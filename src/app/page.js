@@ -1,95 +1,155 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client';
+import dynamic from 'next/dynamic';
+import Questions from './questions.js';
+import Error from './error.js';
+import Calls from './calls';
+import Loading from './loading';
+import { useState, useEffect } from 'react';
+import './style.css'
 
-export default function Home() {
+
+export default function Home () {
+
+  const Results = dynamic(() => import('./results'), { ssr: false });
+  const [currentPage, handlePageChange] = useState('Calls');
+  const [audio, setAudio] = useState(null);
+  const [q1, setQ1] = useState('')
+  const [q2, setQ2] = useState('')
+  const [speakers, setSpeakers] = useState([])
+  const [title, setTitle] = useState('')
+  const [summary, setSummary] = useState('')
+  const [sentiments, setSentiments] = useState('')
+  const [entities, setEntities] = useState('')
+  const [qa, setQA] = useState('')
+  const [actions, setAction] = useState('')
+  const [tasks, setTasks] = useState('')
+  const [error, setError] = useState('')
+  const [pdf, setPDF] = useState('')
+
+  const changePage = (page) => {
+    handlePageChange(page)
+  }
+
+  const handleAudioSubmit = (event) => {
+    event.preventDefault();
+    changePage('Questions')
+  }
+
+  const handleQuestionsSubmit = async (event) => {
+    event.preventDefault();
+    changePage('Loading')
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sendAudio`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ audio: audio, q1: q1, q2: q2 }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        if(data.call === '../public/audio/call-1.mp3') {
+          setSpeakers(['Donna', 'Carolyn']) 
+        }
+
+        if(data.call === '../public/audio/call-2.mp3') {
+          setSpeakers(['Jeff', 'Anthony']) 
+        }
+
+        if(data.call === '../public/audio/call-3.mp3') {
+          setSpeakers(['James', 'Marco']) 
+        }
+
+        if(data.call === '../public/audio/call-4.wav') {
+          setSpeakers(['Mark', 'Colin']) 
+        }
+
+        if(data.call === '../public/audio/call-5.wav') {
+          setSpeakers(['Lauren', 'John'])
+        }
+
+        if(data.call === '../public/audio/call-6.mp3') {
+          setSpeakers(['Erica', 'Josh']) 
+        }
+
+        setSummary(data.summary)
+        setAction(data.actions)
+        setTasks(data.tasks)
+        setEntities(data.entities)
+        setQA(data.qa)
+        setSentiments(data.sentiments)
+        changePage('Results')
+      } else {
+        const error = await response.json();
+        setError(error.error);
+        changePage('Error')
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  const handleAudioFormChange = (event) => {
+    setAudio(event.target.value)
+  }
+
+  const handleQuestionFormChange = (event) => {
+
+    if(event.target.name === 'q1') {
+      setQ1(event.target.value)
+    }
+
+    if(event.target.name === 'q2') {
+      setQ2(event.target.value)
+    }
+  }
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'Calls':
+        return <Calls 
+                handleAudioFormChange={handleAudioFormChange}
+                handleAudioSubmit={handleAudioSubmit}
+               />;
+      case 'Questions':
+        return <Questions 
+                audio={audio}
+                handleQuestionsSubmit={handleQuestionsSubmit}
+                handleQuestionFormChange={handleQuestionFormChange}
+               />;
+      case 'Loading':
+        return <Loading />;
+      case 'Error':
+        return <Error
+               error={error} 
+              />;          
+      case 'Results':
+        return <Results 
+                speaker={speakers}
+                title={title}
+                summary={summary}
+                actions={actions}
+                tasks={tasks}
+                sentiments={sentiments}
+                entities={entities}
+                qa={qa}
+                pdf={pdf}
+              />;
+      default:
+        return <Calls />;
+    }
+  };
+
+  useEffect(() => {
+    setTitle(`${speakers[0]} and ${speakers[1]}`)
+    setPDF(`${speakers[0]}-${speakers[1]}`)
+  }, [speakers]) 
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <div className="App" >
+      <div>{renderPage(currentPage)}</div>
+    </div>
   )
 }
