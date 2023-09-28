@@ -3,6 +3,7 @@
   "routes": [
     {
       "src": "/api/sendAudio",
+      "dest": "/vercel/functions/sendAudio.js",
       "methods": ["GET", "POST"],
       "headers": {
         "Access-Control-Allow-Origin": "*",
