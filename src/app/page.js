@@ -46,6 +46,7 @@ export default function Home () {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ audio: audio, q1: q1, q2: q2 }),
+        timeout: 15000
       });
   
       if (response.ok) {
