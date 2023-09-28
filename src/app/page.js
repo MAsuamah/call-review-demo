@@ -40,7 +40,7 @@ export default function Home () {
     changePage('Loading')
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sendAudio`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sendAudio`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
