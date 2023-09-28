@@ -10,5 +10,16 @@
         }
       ]
     }
-  }
+  },
+  "headers": [
+    {
+      "source": "/api/sendAudio",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ]
 }
