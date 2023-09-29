@@ -15,7 +15,7 @@ const Calls = ({ handleAudioSubmit, handleAudioFormChange}) => {
       <header className={styles.header}>
         <h1 style={{ fontFamily: 'Roboto Black' }}>CallCraft AI <span className={styles.span}>Demo</span></h1>
         <article style={{ fontFamily: 'Roboto Regular' }} className={styles.article} >
-          <p>Harnesses the power of artificial intelligence to provide comprehensive performance reviews of your sales calls.</p>
+          <p>Harness the power of artificial intelligence to provide comprehensive performance reviews of your sales calls.</p>
         </article>
       </header>
       <main className={styles.form}>

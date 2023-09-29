@@ -2,10 +2,6 @@
 import axios from 'axios';
 import fs from 'fs';
 require('dotenv').config();
-
-export const config = {
-  runtime: 'edge',
-};
  
 
 export default async function handler(req, res) {
@@ -108,14 +104,14 @@ export default async function handler(req, res) {
 
           const dataObjTask = {
             transcript_ids: [transcriptId],
-            prompt: 'Provide a list of steps the sales person can take to improve.',
+            prompt: 'You are a coach. Provide a list of steps the salesperson can take to improve their sales tactics.',
             context: context,
             answer_format: 'Bullet point list.',
           };
 
           const dataObjAction = {
             transcript_ids: [transcriptId],
-            context: 'This is a sales call. Return a list of action items the the salesperson should take note of.',
+            context: 'Return a list of action items the the salesperson should take note of.',
             context: context,
           };
 
